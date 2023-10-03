@@ -1,5 +1,6 @@
 // server/index.js
 
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -667,10 +668,10 @@ app.delete("/savings-goals/:id", async (req, res) => {
 });
 
 // Start the server on
-app.listen(5000, () => {
-  console.log("Server has started on Port 5000");
-});
- 
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server has started on Port ${PORT}`));
+
 // Handle graceful shutdown
 process.on('SIGINT', () => {
   console.log('Shutting down gracefully');
