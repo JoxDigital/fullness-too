@@ -1,6 +1,5 @@
 // server/index.js
 
-
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -207,6 +206,90 @@ app.get("/income-sources/:id", async (req, res) => {
   }
 });
 
+// POST /income-sources: Create a new income source
+app.post("/income-sources", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newIncomeSource = await pool.query(
+      "INSERT INTO income_sources (name) VALUES($1) RETURNING *",
+      [name]
+    );
+
+    res.json(newIncomeSource.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// PUT /income-sources/:id: Update an existing income source by ID.
+app.put("/income-sources/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const updatedIncomeSource = await pool.query(
+      "UPDATE income_sources SET name = $1 WHERE id = $2 RETURNING *",
+      [name, id]
+    );
+
+    if (updatedIncomeSource.rows.length === 0) {
+      return res.status(404).json({ error: "Income source not found" });
+    }
+
+    res.json(updatedIncomeSource.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// DELETE /income-sources/:id: Delete an income source by ID.
+app.delete("/income-sources/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Delete the income source by ID
+    await pool.query("DELETE FROM income_sources WHERE id = $1", [id]);
+
+    res.json({ message: "Income source deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// -------------------- income routes
+
+// GET /incomes: Fetch all income entries from the database
+app.get("/incomes", async (req, res) => {
+  try {
+    const incomes = await pool.query("SELECT * FROM incomes");
+    res.json(incomes.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET /incomes/:id: Fetch a specific income entry by ID
+app.get("/incomes/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const income = await pool.query("SELECT * FROM incomes WHERE id = $1", [
+      id,
+    ]);
+
+    if (income.rows.length === 0) {
+      return res.status(404).json({ error: "Income entry not found" });
+    }
+
+    res.json(income.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // GET /incomes-by-month/:userId
 app.get("/incomes-by-month/:userId", async (req, res) => {
@@ -274,92 +357,6 @@ app.get("/incomes-by-date/:userId/:startDate/:endDate", async (req, res) => {
   }
 });
 
-
-
-// POST /income-sources: Create a new income source
-app.post("/income-sources", async (req, res) => {
-  try {
-    const { name } = req.body;
-    const newIncomeSource = await pool.query(
-      "INSERT INTO income_sources (name) VALUES($1) RETURNING *",
-      [name]
-    );
-
-    res.json(newIncomeSource.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// PUT /income-sources/:id: Update an existing income source by ID.
-app.put("/income-sources/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name } = req.body;
-
-    const updatedIncomeSource = await pool.query(
-      "UPDATE income_sources SET name = $1 WHERE id = $2 RETURNING *",
-      [name, id]
-    );
-
-    if (updatedIncomeSource.rows.length === 0) {
-      return res.status(404).json({ error: "Income source not found" });
-    }
-
-    res.json(updatedIncomeSource.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// DELETE /income-sources/:id: Delete an income source by ID.
-app.delete("/income-sources/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Delete the income source by ID
-    await pool.query("DELETE FROM income_sources WHERE id = $1", [id]);
-
-    res.json({ message: "Income source deleted" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// -------------------- incomes routes
-// GET /incomes: Fetch all income entries from the database
-app.get("/incomes", async (req, res) => {
-  try {
-    const incomes = await pool.query("SELECT * FROM incomes");
-    res.json(incomes.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// GET /incomes/:id: Fetch a specific income entry by ID
-app.get("/incomes/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const income = await pool.query("SELECT * FROM incomes WHERE id = $1", [
-      id,
-    ]);
-
-    if (income.rows.length === 0) {
-      return res.status(404).json({ error: "Income entry not found" });
-    }
-
-    res.json(income.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
 // POST /incomes: Create a new income entry
 app.post("/incomes", async (req, res) => {
   try {
@@ -412,6 +409,47 @@ app.delete("/incomes/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+// GET /current-income/:userId
+app.get("/current-income/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    // Write a query to fetch the current income amount for the specified user
+    const query = `
+      SELECT SUM(amount) AS amount
+      FROM incomes
+      WHERE user_id = $1
+        AND date >= CURRENT_DATE - INTERVAL '1' MONTH
+        AND date <= CURRENT_DATE;
+    `;
+    const { rows } = await pool.query(query, [userId]);
+    res.json(rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET /previous-income/:userId
+app.get("/previous-income/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    // Write a query to fetch the previous month's income amount for the specified user
+    const query = `
+      SELECT SUM(amount) AS amount
+      FROM incomes
+      WHERE user_id = $1
+        AND date >= CURRENT_DATE - INTERVAL '2' MONTH
+        AND date < CURRENT_DATE - INTERVAL '1' MONTH;
+    `;
+    const { rows } = await pool.query(query, [userId]);
+    res.json(rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 // ---------------- expense types
 // GET /expense-types: Fetch all expense types from the database
