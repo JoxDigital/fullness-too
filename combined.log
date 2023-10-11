@@ -1,0 +1,109 @@
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"secretKey is not defined","service":"user-service"}
+{"level":"error","message":"secretOrPrivateKey must have a value","service":"user-service"}
+{"level":"error","message":"secretOrPrivateKey must have a value","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImlhdCI6MTY5Njk2MjU1OH0.wevOYbsnPWEg-WQLN22kV1Ung1wyWQqemqYpaAJnO6s","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImlhdCI6MTY5Njk2NzM3MX0.cjQpe0oHH-gj07G1A5D5JmF-J0la0M8xes0Ka2Pr0g8","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImlhdCI6MTY5Njk2NzM5M30.J0430wovJg7QBy5_JN9XGkMfCNw0ad4X4IhhuPFjB-4","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImlhdCI6MTY5Njk2NzYwNn0.rIe6j4Lau_2d1NB1WiLyNGnoEk36BoSUzgaZgO0U3GI","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk2Nzc3OX0.jVitZnbGGs2wb-B7RVcw9yZye-t0PDWDFBDgYUIlEDY","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk2ODI3NH0._PJaz-GJjMvcAwvj5VlROotpS6d3WGPDCg_pssPlaIA","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk2OTcyMn0.F-oOnL8GwbCOIvk6r8Qq5COnTe7AXbM4APpHz1ZqywY","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3NzUxMH0.jevznRSR0DPd17p3oBeOISrOwyNqS_nP9Eq_62_4vts","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTMwMH0.pjYN-6X1aH7_iZcZ-fp6oes-QORsP8cS1-Yj2YFs2jY","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTMwOH0.fY1cxVV61Shgk7SlVILDQLG5Dia6Uwgv1r-tF1s8MbU","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTMyN30.DeaC3cVLMVaGuF-yCRj5zjg7dGjWgsYQDZL7dZiNzVs","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTc1OH0.rMhGBmabV3e9ZTo6th6go-MnAbF1I4qc3GM185bGBgw","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTc5MX0.sFXnnlayQbAO3Rjc_pPEuL-xLNB5lqzaeMwUS-4G_5M","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk3OTg4MX0.0QK8uRbsJN8B-f0Fvb4-p9nEHvPKXMtH938ML_cS4XA","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk4NTAzMH0.XqkEm6oR2RscpGoTSSyBrb_cqxz_5KZcVdNquWy9s04","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5Njk4ODcyNn0.O2kLehDxqU-2NbR9ZqyT955GgNjeqpfdGdnXNJPtIx0","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImlhdCI6MTY5Njk4OTM2M30.S7FgU3pyI9iWspmlk5qx6VFyqLDCH99PS-yMHIv10PE","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 24","service":"user-service"}
+{"level":"info","message":"User Name: Janet","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsImlhdCI6MTY5Njk4OTQ0M30.ed3sxf8JK-fCpATHrk__41nukLPwsyFD7nf1Ffqpqzc","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 22","service":"user-service"}
+{"level":"info","message":"User Name: Jamooj","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MDI1N30.YUhdYeXZ7alVyi5bOj-BmfSMFXSwZudB_RRG1loo9Z8","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 25","service":"user-service"}
+{"level":"info","message":"User Name: Monicah","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MTE1MH0.Z9zpLTxPBHciJxjHVAeM5ZhkWfFPZxAjr_kyZiFLF5I","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 23","service":"user-service"}
+{"level":"info","message":"User Name: Tamika","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MTE3MH0.xXrO8VLgkR_dksEZq9-G_Q6zHu8wKCJYi5QpW7xyANY","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 23","service":"user-service"}
+{"level":"info","message":"User Name: Tamika","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MTc4N30.yZyMW_rzVPHlnawTkIP-Q5GtpHYjuFDQrThPpTy0SDY","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 25","service":"user-service"}
+{"level":"info","message":"User Name: Monicah","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MTk0Mn0.LmnhXGOh_zbJbLCpI8YS3NbeAkC3vBUfTQPxhnIVt2A","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 23","service":"user-service"}
+{"level":"info","message":"User Name: Tamika","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MjUwNX0.2WwRlTsqOZZeM2LOE1DYLwEgBO6YwsBiLNdquRsEMIQ","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 23","service":"user-service"}
+{"level":"info","message":"User Name: Tamika","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5MjUyMn0.3bROzSYvQwcLOO5-9FGE2tyg8GW1TT0fdeM_D9fysG0","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 25","service":"user-service"}
+{"level":"info","message":"User Name: Monicah","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5Mzc1MX0.5VpI1Gbsq1pmqAYP7Aw_N-77JKTDXr4CUlsgL83G4_k","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 24","service":"user-service"}
+{"level":"info","message":"User Name: Janet","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5Mzc4MH0.98UMFreRSwmCMsbju1fcdroHkva14Te31jU5xuSc8p0","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 24","service":"user-service"}
+{"level":"info","message":"User Name: Janet","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5Mzg2OH0.SAe5Je-wbO2S9Fbf1kvgAeJevEBzLegtfrb-BhVyCmQ","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 25","service":"user-service"}
+{"level":"info","message":"User Name: Monicah","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5NDc3Nn0.WEUjXR4T5vEZOabeAVwE_OXO_4iOgxWd4PZ4Ike3B8E","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 24","service":"user-service"}
+{"level":"info","message":"User Name: Janet","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}
+{"level":"info","message":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGVfaWQiOjMsImlhdCI6MTY5Njk5NTY1M30.MBB02mkIdlpsneC2DtrQ46wOG9FotBtwL5d-83bKNq0","service":"user-service"}
+{"level":"info","message":"Token: testing_key","service":"user-service"}
+{"level":"info","message":"User ID: 25","service":"user-service"}
+{"level":"info","message":"User Name: Monicah","service":"user-service"}
+{"level":"info","message":"User ID: 3","service":"user-service"}

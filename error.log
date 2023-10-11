@@ -1,0 +1,10 @@
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"jwt is not defined","service":"user-service"}
+{"level":"error","message":"secretKey is not defined","service":"user-service"}
+{"level":"error","message":"secretOrPrivateKey must have a value","service":"user-service"}
+{"level":"error","message":"secretOrPrivateKey must have a value","service":"user-service"}

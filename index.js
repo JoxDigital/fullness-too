@@ -1,11 +1,55 @@
 // server/index.js
-
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const bcrypt = require("bcrypt");
-const moment = require('moment'); // Import the moment library
+const moment = require("moment");
+const logger = require("./logger");
+const jwt_decode = require("jwt-decode");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const secretKey = process.env.JWT_SECRET;
+
+// Import the authentication middleware function
+const authMiddleware = (requiredRole) => (req, res, next) => {
+  const token = req.header("x-auth-token"); // Assuming you send the token in the header
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    let decoded = jwt_decode(token); // Decoding the token
+    req.user = decoded; // Attach user data to the request
+
+    if (req.user.role !== requiredRole) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Invalid token" });
+  }
+};
+
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+});
+
+// Protected admin route example
+app.get("/admin/dashboard", authMiddleware("administrator"), (req, res) => {
+  // This route is protected and can only be accessed by administrators
+  // Add your admin-specific functionality here
+});
+
+// Create a limiter for the login route
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 25, // Limit each IP to 5 requests per windowMs for the login route
+});
 
 // Serve static files from the 'public' directory
 app.use(express.static("build"));
@@ -19,7 +63,7 @@ app.use(express.json()); // req.body
 // ------------ User Authentication Routes
 
 // POST /login: User login
-app.post("/login", async (req, res) => {
+app.post("/login", loginLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -43,22 +87,29 @@ app.post("/login", async (req, res) => {
     }
 
     // Generate a JWT token for the user
-    // You can use libraries like 'jsonwebtoken' for this
-    const token = generateToken(user.rows[0].id); // Implement 'generateToken' function
+    const token = jwt.sign({ id: user.rows[0].id, role_id: user.rows[0].role_id }, secretKey);
+
+    // const token = jwt.sign({ id: user.rows[0].id }, secretKey); // Implement 'generateToken' function
     // Log the token
-    console.log('Token: %d', token);
+    // console.log("Token: %d", token);
+    logger.info("Token: " + token);
+    logger.info("Token: " + secretKey);
+
+    // Log the user's id and name
+    logger.info("User ID: " + user.rows[0].id);
+    logger.info("User Name: " + user.rows[0].name); // Assuming 'name' is a field in your 'users' table
+    logger.info("User ID: " + user.rows[0].role_id);
 
     res.json({ token });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
-
 // POST /register: Register a new user.
 app.post("/register", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role_id } = req.body;
 
     // Check if the user with the same email already exists
     const userExists = await pool.query(
@@ -78,13 +129,13 @@ app.post("/register", async (req, res) => {
 
     // Insert the new user into the database
     const newUser = await pool.query(
-      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email",
-      [name, email, hashedPassword]
+      "INSERT INTO users (name, email, password, role_id) VALUES ($1, $2, $3, $4) RETURNING id, name, email",
+      [name, email, hashedPassword, role_id]
     );
 
     res.status(201).json({ user: newUser.rows[0] });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -99,7 +150,7 @@ app.get("/users", async (req, res) => {
     res.json(users.rows);
     console.log("FINISH: Fetched ALL Users");
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -116,7 +167,7 @@ app.get("/users/:id", async (req, res) => {
 
     res.json(user.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -132,7 +183,7 @@ app.post("/users", async (req, res) => {
 
     res.json(newUser.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -154,7 +205,7 @@ app.put("/users/:id", async (req, res) => {
 
     res.json(updatedUser.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -169,7 +220,7 @@ app.delete("/users/:id", async (req, res) => {
 
     res.json({ message: "User deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -181,7 +232,7 @@ app.get("/income-sources", async (req, res) => {
     const incomeSources = await pool.query("SELECT * FROM income_sources");
     res.json(incomeSources.rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -201,7 +252,7 @@ app.get("/income-sources/:id", async (req, res) => {
 
     res.json(incomeSource.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -217,7 +268,7 @@ app.post("/income-sources", async (req, res) => {
 
     res.json(newIncomeSource.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -239,7 +290,7 @@ app.put("/income-sources/:id", async (req, res) => {
 
     res.json(updatedIncomeSource.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -254,7 +305,7 @@ app.delete("/income-sources/:id", async (req, res) => {
 
     res.json({ message: "Income source deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -267,7 +318,7 @@ app.get("/incomes", async (req, res) => {
     const incomes = await pool.query("SELECT * FROM incomes");
     res.json(incomes.rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -286,7 +337,7 @@ app.get("/incomes/:id", async (req, res) => {
 
     res.json(income.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -297,7 +348,9 @@ app.get("/incomes-by-month/:userId", async (req, res) => {
     const { userId } = req.params;
 
     // Calculate the date twelve months ago from today
-    const twelveMonthsAgo = moment().subtract(12, 'months').format('YYYY-MM-DD');
+    const twelveMonthsAgo = moment()
+      .subtract(12, "months")
+      .format("YYYY-MM-DD");
 
     // Query to fetch income data for the specific user for the last twelve months
     const query = `
@@ -320,7 +373,7 @@ app.get("/incomes-by-month/:userId", async (req, res) => {
 
     res.json(rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -350,9 +403,12 @@ app.get("/incomes-by-date/:userId/:startDate/:endDate", async (req, res) => {
 
     const { rows } = await pool.query(query, [userId, startDate, endDate]);
 
+    // Log the tabular data result using Winston
+    logger.info("Tabular data result:", rows);
+
     res.json(rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -368,7 +424,7 @@ app.post("/incomes", async (req, res) => {
 
     res.json(newIncome.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -390,7 +446,7 @@ app.put("/incomes/:id", async (req, res) => {
 
     res.json(updatedIncome.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -405,7 +461,7 @@ app.delete("/incomes/:id", async (req, res) => {
 
     res.json({ message: "Income entry deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -425,7 +481,7 @@ app.get("/current-income/:userId", async (req, res) => {
     const { rows } = await pool.query(query, [userId]);
     res.json(rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -445,11 +501,10 @@ app.get("/previous-income/:userId", async (req, res) => {
     const { rows } = await pool.query(query, [userId]);
     res.json(rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
-
 
 // ---------------- expense types
 // GET /expense-types: Fetch all expense types from the database
@@ -458,7 +513,7 @@ app.get("/expense-types", async (req, res) => {
     const expenseTypes = await pool.query("SELECT * FROM expense_types");
     res.json(expenseTypes.rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -478,7 +533,7 @@ app.get("/expense-types/:id", async (req, res) => {
 
     res.json(expenseType.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -494,7 +549,7 @@ app.post("/expense-types", async (req, res) => {
 
     res.json(newExpenseType.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -516,7 +571,7 @@ app.put("/expense-types/:id", async (req, res) => {
 
     res.json(updatedExpenseType.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -531,7 +586,7 @@ app.delete("/expense-types/:id", async (req, res) => {
 
     res.json({ message: "Expense type deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -543,7 +598,7 @@ app.get("/expenses", async (req, res) => {
     const expenses = await pool.query("SELECT * FROM expenses");
     res.json(expenses.rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -562,7 +617,7 @@ app.get("/expenses/:id", async (req, res) => {
 
     res.json(expense.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -578,7 +633,7 @@ app.post("/expenses", async (req, res) => {
 
     res.json(newExpense.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -600,7 +655,7 @@ app.put("/expenses/:id", async (req, res) => {
 
     res.json(updatedExpense.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -615,7 +670,7 @@ app.delete("/expenses/:id", async (req, res) => {
 
     res.json({ message: "Expense entry deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -627,7 +682,7 @@ app.get("/savings-goals", async (req, res) => {
     const savingsGoals = await pool.query("SELECT * FROM savings_goals");
     res.json(savingsGoals.rows);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -647,7 +702,7 @@ app.get("/savings-goals/:id", async (req, res) => {
 
     res.json(savingsGoal.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -663,7 +718,7 @@ app.post("/savings-goals", async (req, res) => {
 
     res.json(newSavingsGoal.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -685,7 +740,7 @@ app.put("/savings-goals/:id", async (req, res) => {
 
     res.json(updatedSavingsGoal.rows[0]);
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -700,7 +755,7 @@ app.delete("/savings-goals/:id", async (req, res) => {
 
     res.json({ message: "Savings goal deleted" });
   } catch (err) {
-    console.error(err.message);
+    logger.error(err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -711,15 +766,15 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server has started on Port ${PORT}`));
 
 // Handle graceful shutdown
-process.on('SIGINT', () => {
-  console.log('Shutting down gracefully');
+process.on("SIGINT", () => {
+  console.log("Shutting down gracefully");
   server.close(() => {
-    console.log('Server closed');
+    console.log("Server closed");
     process.exit(0);
   });
 });
 
-const path = require('path');
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });

@@ -2,12 +2,21 @@ CREATE DATABASE fullness;
 
 \c fullness;
 
+-- Create user_roles Table 
+CREATE TABLE user_roles (
+  id SERIAL PRIMARY KEY,
+  role VARCHAR(50) NOT NULL,
+  description VARCHAR(250)
+);
+
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(250) NOT NULL,
   email VARCHAR(250) UNIQUE NOT NULL,
-  password VARCHAR(250) NOT NULL
+  password VARCHAR(250) NOT NULL,
+  role_id INTEGER,
+  FOREIGN KEY (role_id) REFERENCES user_roles (id) ON DELETE CASCADE
 );
 
 -- Create income_sources table
